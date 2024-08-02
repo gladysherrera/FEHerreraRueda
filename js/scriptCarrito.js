@@ -51,7 +51,7 @@ btn.addEventListener("click", (e) => {
         icon: "success",
         title: "Gracias por su compra",
         showConfirmButton: false,
-        timer: 2000
+        timer: 1000
     }).then(() => { location.href = "super.html"; });//promesa, se ejecuta cuando se termina el alert
 });
 

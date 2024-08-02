@@ -38,6 +38,10 @@ h1 {
     width: 200px;
     margin: 20px auto;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .cardImagen {

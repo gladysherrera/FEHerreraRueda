@@ -23,50 +23,57 @@ for (let subi = 0; subi < cajaCard.length; subi++) {
 
 function controlStock(arrayStock, nroCard) {
     let elementoInput = document.getElementById(`num${nroCard}`);
-   
-    if (elementoInput.value == 0) {
-        Swal.fire({
-            title: "debe ingresar la cantidad a comprar",
-            confirmButtonColor:"#036a0aa7",
-            icon: "error"
-          });  
-    } else {
-        if (elementoInput.value > arrayStock[nroCard]) {
-            Swal.fire({
-                title: "la cantidad a comprar supera el stock",
-                confirmButtonColor:"#036a0aa7",
-                icon: "error"
-              });
-              elementoInput.value = 0;
-        } else {
-            comprarProducto(arrayStock,arrayProductos,arrayPrecios,compras,cantCompras, parseInt(nroCard), elementoInput )
-        }
+    let cantidad = parseInt(elementoInput.value);
+
+    switch (true) {
+        case cantidad < 0:
+            alertaError("la cantidad no puede ser menor que 0");
+            elementoInput.value = 0;
+            break;
+        case cantidad == 0:
+            alertaError("debe ingresar la cantidad a comprar");
+            break;
+        case cantidad > arrayStock[nroCard]:
+            alertaError("la cantidad a comprar supera el stock");
+            elementoInput.value = 0;
+            break
+        default:
+            elementoInput.value = 0;
+            comprarProducto(arrayStock, arrayProductos, arrayPrecios, compras, cantCompras, parseInt(nroCard), cantidad);
     }
+}
+
+function alertaError(texto) {
+    Swal.fire({
+        title: texto,
+        confirmButtonColor: "#036a0aa7",
+        icon: "error"
+    });
 }
 
 function comprarProducto(stock, productos, precios, compras, cantCompras, id, cantidadProducto) {
 
     //actualizo el stock
-    stock[id] -= cantidadProducto.value;
+    stock[id] -= cantidadProducto;
     let divStock = document.getElementById(`stock${id}`);
     divStock.textContent = `Stock : ${stock[id]} unidades`;
 
     //agrego el id del producto al arreglo compras y la cantidad en cantCompras
     compras[compras.length] = id;
-    cantCompras[compras.length-1] = parseInt(cantidadProducto.value);
+    cantCompras[compras.length - 1] = cantidadProducto;
 
-   
+
     Swal.fire({
-        title: `Seleccionó ${cantidadProducto.value} unidades  `   ,
-        text: `de ${productos[id]} por un total de $ ${precios[id]*cantidadProducto.value}`,
+        title: `Seleccionó ${cantidadProducto} unidades  `,
+        text: `de ${productos[id]} por un total de $ ${precios[id] * cantidadProducto}`,
         icon: "warning",
-        iconColor:"#036a0aa7",
+        iconColor: "#036a0aa7",
         showCancelButton: true,
         confirmButtonColor: "#036a0aa7",
         cancelButtonColor: "#E09900",
         cancelButtonText: "Finalizar compra",
         confirmButtonText: "Seguir comprando"
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
                 position: "center",
@@ -74,18 +81,18 @@ function comprarProducto(stock, productos, precios, compras, cantCompras, id, ca
                 title: "Producto agregado al carrito",
                 showConfirmButton: false,
                 timer: 1000
-              });
+            });
         }
-       if (result.isDismissed) { //ir al Carrito
-        localStorage.setItem('productos', JSON.stringify(productos)); //strinngify: convierte el arreglo a una cadena JSON
-        localStorage.setItem('precios', JSON.stringify(precios));
-        localStorage.setItem('compras', JSON.stringify(compras));
-        localStorage.setItem('cantCompras', JSON.stringify(cantCompras));
-        
-        location.href = "carrito.html";
-       } 
-      });
-    cantidadProducto.value = 0;//en el input pongo 0 
+        if (result.isDismissed) { //ir al Carrito
+            localStorage.setItem('productos', JSON.stringify(productos)); //strinngify: convierte el arreglo a una cadena JSON
+            localStorage.setItem('precios', JSON.stringify(precios));
+            localStorage.setItem('compras', JSON.stringify(compras));
+            localStorage.setItem('cantCompras', JSON.stringify(cantCompras));
+
+            location.href = "carrito.html";
+        }
+    });
+   // cantidadProducto.value = 0;//en el input pongo 0 
 };
 
 
@@ -132,21 +139,21 @@ function mostrarProductos(arrayProductos, arrayPrecios, arrayStock) {
         let elementoDiv = document.createElement("div");
         elementoDiv.classList.add("cardContador");
 
-            //agrego el label 
-            elemento = document.createElement("label");
-            texto = document.createTextNode("tus unidades: ");
-            elemento.appendChild(texto);
-            elemento.classList.add("valorLabel");
-            elementoDiv.appendChild(elemento);
+        //agrego el label 
+        elemento = document.createElement("label");
+        texto = document.createTextNode("tus unidades: ");
+        elemento.appendChild(texto);
+        elemento.classList.add("valorLabel");
+        elementoDiv.appendChild(elemento);
 
-            //creo el input
-            elemento = document.createElement("input");
-            elemento.classList.add("valorContador");
-            elemento.setAttribute("type", "number");
-            elemento.setAttribute("id", `num${i}`);
-            elemento.setAttribute("min", 0);
-            elemento.setAttribute("value", 0);
-            elementoDiv.appendChild(elemento);
+        //creo el input
+        elemento = document.createElement("input");
+        elemento.classList.add("valorContador");
+        elemento.setAttribute("type", "number");
+        elemento.setAttribute("id", `num${i}`);
+        elemento.setAttribute("min", 0);
+        elemento.setAttribute("value", 0);
+        elementoDiv.appendChild(elemento);
 
         card.appendChild(elementoDiv);
 
