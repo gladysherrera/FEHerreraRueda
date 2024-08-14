@@ -13,6 +13,7 @@ arrayCantCompras = JSON.parse(arrayCantCompras);
 
 
 let total = 0;
+//arma la lista de productos seleccionados
 for (let i = 0; i < arrayCompras.length; i++) {
     let contenedor = document.createElement("div");
     contenedor.classList.add("conCompras");
@@ -75,6 +76,7 @@ btn.addEventListener("click", (e) => {
     })
 });
 
+//funcion reutilizable que crea el componente de la lista en base a los parametros enviados
 function crearElemento(etiqueta, clase, txt, padre) {
     elemento = document.createElement(etiqueta);
     elemento.classList.add(clase);

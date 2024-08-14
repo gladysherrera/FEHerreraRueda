@@ -20,7 +20,9 @@ btnEnviar.addEventListener("click", (e) => {
     info[5] = consulta.value;
 
     let error = 0;
-
+// se evalua cada caso de error, cada fun. retora un valor, si es == 1 alerta con el error
+//si no hay error crea el archivo de txt con los datos y genera la descarga
+// se resetean los valores
     switch (true) {
         case validarCamposVacios(info, error)==1:
             alertaError("Faltan completar datos");
@@ -52,7 +54,7 @@ btnEnviar.addEventListener("click", (e) => {
                 consulta.value = "";
     }
 })
-
+//evalua si el correo tiene el @ y si tiene caracteres
 function validarCorreo(correo, error) {
     console.log("correo", correo);
     if (!correo.includes("@")) {
@@ -67,7 +69,7 @@ function validarCorreo(correo, error) {
     }
     return error;
 }
-
+ //evalua si un campo no tiene caracteres
 function validarCamposVacios(info, error) {
     for (let i = 0; i < info.length; i++) {
         if (info[i] == "") {
@@ -76,7 +78,7 @@ function validarCamposVacios(info, error) {
     }
     return error;
 }
-
+ //evalua si el telefono es mayor a 4 y menor a 10 y que sean numeros
 function validarTelefono( tel, error) {
    if (tel.length<4 || tel.length>10) {
     error = 1;
@@ -91,7 +93,7 @@ function validarTelefono( tel, error) {
    }
     return error;
 }
-
+// modal de error variable
 function alertaError (texto) {
     Swal.fire({
         icon: "error",

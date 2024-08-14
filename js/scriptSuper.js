@@ -20,7 +20,7 @@ for (let subi = 0; subi < cajaCard.length; subi++) {
     })
 }
 
-
+//evalua que el el valor corresponda
 function controlStock(arrayStock, nroCard) {
     let elementoInput = document.getElementById(`num${nroCard}`);
     let cantidad = parseInt(elementoInput.value);
@@ -43,13 +43,7 @@ function controlStock(arrayStock, nroCard) {
     }
 }
 
-function alertaError(texto) {
-    Swal.fire({
-        title: texto,
-        confirmButtonColor: "#036a0aa7",
-        icon: "error"
-    });
-}
+
 
 function comprarProducto(stock, productos, precios, compras, cantCompras, id, cantidadProducto) {
 
@@ -167,4 +161,12 @@ function mostrarProductos(arrayProductos, arrayPrecios, arrayStock) {
         //agrego todo a la card
         cardContenedor.appendChild(card);
     }
+}
+
+function alertaError(texto) {
+    Swal.fire({
+        title: texto,
+        confirmButtonColor: "#036a0aa7",
+        icon: "error"
+    });
 }
